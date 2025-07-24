@@ -1,12 +1,13 @@
 {
   "logger": {
+    "silent": false,
     "level": "info",
     "console": {
-      "enabled": true
+      "enabled": false
     },
     "file": {
-      "enabled": false,
-      "path": "log.txt"
+      "enabled": true,
+      "path": "app.log"
     }
   },
   "random_sequence": {
