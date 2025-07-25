@@ -9,7 +9,7 @@ export class RandomStream extends Readable {
         super(options);
     }
     _read() {
-        if (this._stop && !this.destroyed) {
+        if (this._stop) {
             logger.debug("RandomStream: Stop signal received. End of stream");
             this.push(null);
             return;
