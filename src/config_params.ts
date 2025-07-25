@@ -14,7 +14,6 @@ const DEFAULT_MAX = 49;
 
 export function getConfigValue<T>(key: string, defaultValue: T): T {
     if (config.has(key)) {
-        console.log(`Config value: ${key} = ${config.get<T>(key)}`);
         return config.get<T>(key);
     }
     return defaultValue;

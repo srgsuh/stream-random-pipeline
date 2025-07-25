@@ -1,7 +1,7 @@
 {
   "logger": {
     "silent": false,
-    "level": "info",
+    "level": "debug",
     "console": {
       "enabled": false
     },

@@ -1,12 +1,21 @@
 import {Readable} from "node:stream";
 import _ from "lodash";
+import logger from "./logger.js";
 
 export class RandomStream extends Readable {
+    private counter = 0;
     constructor(private min: number, private max: number, highWaterMark?: number) {
         const options = highWaterMark? {highWaterMark} : undefined;
-        super(options);
+        super({encoding: "utf8", ...options});
     }
     _read() {
-        this.push(_.random(this.min, this.max));
+        const chunk = _.random(this.min, this.max);
+        this.push(chunk.toString());
+        this.counter++;
+        logger.debug(`RandomStream: Pushing chunk = ${chunk}, count = ${this.counter}`);
+    }
+    _destroy(error: Error | null, callback: (error?: (Error | null)) => void) {
+        logger.debug("RandomStream: Destroying");
+        callback(error);
     }
 }
