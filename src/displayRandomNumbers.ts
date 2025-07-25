@@ -30,6 +30,7 @@ export async function writeRandomNumbers(
         validate(parameters);
         const randomStream = new RandomStream(parameters.min, parameters.max, READABLE_OPTIONS);
         const limit = new LimitFilter(parameters.count, TRANSFORM_OPTIONS);
+        limit.on("full", () => randomStream.stop());
         const writing: Promise<void> = parameters.isUnique?
             pipeline(randomStream, new UniqueFilter(TRANSFORM_OPTIONS), limit, destination):
             pipeline(randomStream, limit, destination);

@@ -18,6 +18,7 @@ export class LimitFilter extends Transform{
         else {
             logger.debug("LimitFilter: End of stream");
             this.push(null);
+            this.emit("full");
         }
     }
 

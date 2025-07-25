@@ -14,6 +14,9 @@ export class UniqueFilter extends Transform{
             this.push(data);
             logger.debug(`UniqueFilter: Pushing chunk = ${data}`);
         }
+        else {
+            logger.debug(`UniqueFilter: Dropping duplicate chunk = ${data}`);
+        }
         callback();
     }
 }
