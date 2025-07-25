@@ -1,10 +1,9 @@
-import {Transform, TransformCallback} from "node:stream";
+import {Transform, TransformCallback, TransformOptions} from "node:stream";
 import logger from "./logger.js";
 
 export class LimitFilter extends Transform{
     private counter = 0;
-    constructor(private limit: number, highWaterMark?: number) {
-        const options = highWaterMark? {highWaterMark} : undefined;
+    constructor(private limit: number, options?: TransformOptions) {
         super(options);
     }
     _transform(chunk: any, encoding: BufferEncoding, callback: TransformCallback) {

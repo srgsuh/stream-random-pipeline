@@ -1,11 +1,10 @@
-import {Readable} from "node:stream";
+import {Readable, ReadableOptions} from "node:stream";
 import _ from "lodash";
 import logger from "./logger.js";
 
 export class RandomStream extends Readable {
     private counter = 0;
-    constructor(private min: number, private max: number, highWaterMark?: number) {
-        const options = highWaterMark? {highWaterMark} : undefined;
+    constructor(private min: number, private max: number, options?: ReadableOptions) {
         super(options);
     }
     _read() {

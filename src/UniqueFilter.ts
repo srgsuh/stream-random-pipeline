@@ -1,10 +1,9 @@
-import {Transform, TransformCallback} from "node:stream";
+import {Transform, TransformCallback, TransformOptions} from "node:stream";
 import logger from "./logger.js";
 
 export class UniqueFilter extends Transform{
     private passedValues = new Set<number>();
-    constructor(highWaterMark?: number) {
-        const options = highWaterMark? {highWaterMark} : undefined;
+    constructor(options?: TransformOptions) {
         super(options);
         logger.debug("UniqueFilter: Created");
     }

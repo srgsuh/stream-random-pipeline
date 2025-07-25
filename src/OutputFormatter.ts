@@ -1,10 +1,10 @@
-import {Writable} from "node:stream";
+import {Writable, WritableOptions} from "node:stream";
 
 export class OutputFormatter extends Writable {
     private isFirst = true;
 
-    constructor() {
-        super();
+    constructor(options?: WritableOptions) {
+        super(options);
     }
 
     _write(chunk: any, encoding: BufferEncoding, callback: (error?: (Error | null)) => void) {
