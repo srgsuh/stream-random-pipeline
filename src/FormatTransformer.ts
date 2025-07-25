@@ -1,20 +1,18 @@
-import {TransformOptions, Transform} from "node:stream";
-import test from "node:test";
-import Error = module
+import {TransformOptions, Transform, TransformCallback} from "node:stream";
 
-export interface OutputTransformerOptions {
+export interface FormatTransformerOptions {
     delimiter: string;
     beforeAll: string;
     afterAll: string;
 }
 
-const defaultOptions: OutputTransformerOptions = {
+const defaultOptions: FormatTransformerOptions = {
     delimiter: ', ',
     beforeAll: '[ ',
     afterAll: ' ]'
 }
 
-export class OutputTransformer extends Transform {
+export class FormatTransformer extends Transform {
     private notFirst = false;
     constructor(options?: TransformOptions) {
         super(options);
@@ -38,6 +36,6 @@ export class OutputTransformer extends Transform {
 
     _final(callback: (error?: (Error | null)) => void) {
         this.push(defaultOptions.afterAll + "\n");
-        callback(error);
+        callback();
     }
 }
