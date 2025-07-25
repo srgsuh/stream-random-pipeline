@@ -29,14 +29,11 @@ export async function writeRandomNumbers(
     try {
         validate(parameters);
         const randomStream = new RandomStream(parameters.min, parameters.max, READABLE_OPTIONS);
-        const limit = parameters.isUnique?
-            new UniqueLimitFilter(parameters.count, TRANSFORM_OPTIONS):
-            new LimitFilter(parameters.count, TRANSFORM_OPTIONS);
-        await pipeline(
-            randomStream,
-            limit,
-            destination
-        )
+        const limit = new LimitFilter(parameters.count, TRANSFORM_OPTIONS);
+        const writing: Promise<void> = parameters.isUnique?
+            pipeline(randomStream, new UniqueFilter(TRANSFORM_OPTIONS), limit, destination):
+            pipeline(randomStream, limit, destination);
+        await writing;
     }
     catch (error) {
         if (error instanceof RandomSequenceError) {
