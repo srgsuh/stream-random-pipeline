@@ -1,9 +1,11 @@
 import {Transform, TransformCallback} from "node:stream";
+import logger from "./logger.js";
 
-class UniqueFilter extends Transform{
+export class UniqueFilter extends Transform{
     private passedValues = new Set<number>();
     constructor() {
         super();
+        logger.debug("UniqueFilter: Created");
     }
     _transform(chunk: any, encoding: BufferEncoding, callback: TransformCallback) {
         if (!this.passedValues.has(chunk)) {

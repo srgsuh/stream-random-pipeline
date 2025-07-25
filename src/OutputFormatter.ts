@@ -12,7 +12,7 @@ export class OutputFormatter extends Writable {
             process.stdout.write(', ');
         }
         this.isFirst = false;
-        process.stdout.write(chunk);
+        process.stdout.write(`${chunk}`);
         callback();
     }
 

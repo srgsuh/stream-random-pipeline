@@ -5,7 +5,7 @@ export class LimitFilter extends Transform{
     private counter = 0;
     constructor(private limit: number, highWaterMark?: number) {
         const options = highWaterMark? {highWaterMark} : undefined;
-        super({encoding: "utf8", ...options});
+        super(options);
     }
     _transform(chunk: any, encoding: BufferEncoding, callback: TransformCallback) {
         if (this.counter < this.limit) {

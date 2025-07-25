@@ -6,7 +6,7 @@ export class RandomStream extends Readable {
     private counter = 0;
     constructor(private min: number, private max: number, highWaterMark?: number) {
         const options = highWaterMark? {highWaterMark} : undefined;
-        super({encoding: "utf8", ...options});
+        super(options);
     }
     _read() {
         const chunk = _.random(this.min, this.max);
