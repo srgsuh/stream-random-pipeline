@@ -1,10 +1,10 @@
 import {pipeline} from "node:stream/promises";
 import {OutputFormatter} from "./OutputFormatter.ts";
-import logger from "./logger.js";
+import logger from "./logger.ts";
 import {RandomStream} from "./RandomStream.ts";
-import {Transform, Writable} from "node:stream";
-import {LimitFilter} from "./LimitFilter.js";
-import {UniqueFilter} from "./UniqueFilter.js";
+import {Writable} from "node:stream";
+import {LimitFilter} from "./LimitFilter.ts";
+import {UniqueFilter} from "./UniqueFilter.ts";
 import {READABLE_OPTIONS, TRANSFORM_OPTIONS, WRITABLE_OPTIONS} from "./stream-options.js";
 
 interface RandomGenParams {

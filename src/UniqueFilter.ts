@@ -1,5 +1,5 @@
 import {Transform, TransformCallback, TransformOptions} from "node:stream";
-import logger from "./logger.js";
+import logger from "./logger.ts";
 
 export class UniqueFilter extends Transform{
     private passedValues = new Set<number>();

@@ -1,6 +1,6 @@
 import {Readable, ReadableOptions} from "node:stream";
 import _ from "lodash";
-import logger from "./logger.js";
+import logger from "./logger.ts";
 
 export class RandomStream extends Readable {
     private counter = 0;
