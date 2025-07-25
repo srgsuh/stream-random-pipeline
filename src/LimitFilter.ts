@@ -22,11 +22,6 @@ export class LimitFilter extends Transform{
         }
     }
 
-    _destroy(error: Error | null, callback: (error?: (Error | null)) => void) {
-        logger.debug("LimitFilter: Destroying");
-        callback(error);
-    }
-
     _flush(callback: TransformCallback) {
         logger.debug("LimitFilter: Flushing");
         callback();

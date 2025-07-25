@@ -6,7 +6,7 @@ import {Transform, Writable} from "node:stream";
 import {LimitFilter} from "./LimitFilter.js";
 import {UniqueFilter} from "./UniqueFilter.js";
 
-const HWM = 16;
+const HWM = 4;
 
 interface RandomGenParams {
     count: number;
@@ -43,15 +43,6 @@ export async function writeRandomNumbers(
             throw error;
         }
     }
-}
-
-function getTransformStreams({count, isUnique}: RandomGenParams): Transform[] {
-    const streams = [];
-    if (isUnique) {
-        console.log("Unique is not implemented yet.");
-    }
-    streams.push(new LimitFilter(count));
-    return streams;
 }
 
 type testFn = (p: RandomGenParams) => boolean;

@@ -14,8 +14,4 @@ export class RandomStream extends Readable {
         this.counter++;
         logger.debug(`RandomStream: Pushing chunk = ${chunk}, count = ${this.counter}`);
     }
-    _destroy(error: Error | null, callback: (error?: (Error | null)) => void) {
-        logger.debug("RandomStream: Destroying");
-        callback(error);
-    }
 }

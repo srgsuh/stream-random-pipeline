@@ -3,14 +3,17 @@ import logger from "./logger.js";
 
 export class UniqueFilter extends Transform{
     private passedValues = new Set<number>();
-    constructor() {
-        super();
+    constructor(highWaterMark?: number) {
+        const options = highWaterMark? {highWaterMark} : undefined;
+        super(options);
         logger.debug("UniqueFilter: Created");
     }
     _transform(chunk: any, encoding: BufferEncoding, callback: TransformCallback) {
-        if (!this.passedValues.has(chunk)) {
-            this.passedValues.add(chunk);
-            this.push(chunk);
+        const data = chunk.toString();
+        if (!this.passedValues.has(data)) {
+            this.passedValues.add(data);
+            this.push(data);
+            logger.debug(`UniqueFilter: Pushing chunk = ${data}`);
         }
         callback();
     }
