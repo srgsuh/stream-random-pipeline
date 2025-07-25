@@ -8,12 +8,16 @@ export class OutputFormatter extends Writable {
     }
 
     _write(chunk: any, encoding: BufferEncoding, callback: (error?: (Error | null)) => void) {
+        this._addDelimiter();
+        process.stdout.write(`${chunk}`);
+        callback();
+    }
+
+    _addDelimiter() {
         if (!this.isFirst) {
             process.stdout.write(', ');
         }
         this.isFirst = false;
-        process.stdout.write(`${chunk}`);
-        callback();
     }
 
     _final(callback: (error?: (Error | null)) => void) {
