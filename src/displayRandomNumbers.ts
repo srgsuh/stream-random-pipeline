@@ -3,9 +3,9 @@ import logger from "./logger.ts";
 import {RandomStream} from "./RandomStream.ts";
 import {Writable} from "node:stream";
 import {LimitFilter} from "./LimitFilter.ts";
-import {UniqueFilter} from "./UniqueFilter.ts";
 import {READABLE_OPTIONS, TRANSFORM_OPTIONS, WRITABLE_OPTIONS} from "./stream-options.js";
 import {FormatTransformer} from "./FormatTransformer.ts";
+import {UniqueLimitFilter} from "./UniqueLimitFilter.js";
 
 interface RandomGenParams {
     count: number;
@@ -28,17 +28,12 @@ export async function writeRandomNumbers(
     try {
         validate(parameters);
         const randomStream = new RandomStream(parameters.min, parameters.max, READABLE_OPTIONS);
-        const limit = new LimitFilter(parameters.count, TRANSFORM_OPTIONS);
+        const limit = parameters.isUnique?
+            new UniqueLimitFilter(parameters.count, TRANSFORM_OPTIONS):
+            new LimitFilter(parameters.count, TRANSFORM_OPTIONS);
         const formatter = new FormatTransformer(TRANSFORM_OPTIONS);
-        const writing: Promise<void> = parameters.isUnique?
-            pipeline(
-                randomStream,
-                new UniqueFilter(TRANSFORM_OPTIONS),
-                limit,
-                formatter,
-                destination):
-            pipeline(randomStream, limit, formatter, destination);
-        await writing;
+
+        await pipeline(randomStream, limit, formatter, destination);
     }
     catch (error) {
         if (error instanceof RandomSequenceError) {

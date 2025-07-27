@@ -7,22 +7,19 @@ export class LimitFilter extends Transform{
         super(options);
     }
     _transform(chunk: any, encoding: BufferEncoding, callback: TransformCallback) {
-        if (this.counter < this.limit) {
-            logger.debug(`LimitFilter: Pushing chunk = ${chunk}, counter = ${this.counter + 1}`);
-            this.push(chunk);
+        if (this.counter >= this.limit) {
+            logger.debug(`LimitFilter: SKIPPING chunk = ${chunk} due to limit`);
+            return;
         }
-        this.counter++;
-        if (this.counter < this.limit) {
-            callback();
-        }
-        else {
-            logger.debug("LimitFilter: End of stream");
-            this.push(null);
-        }
-    }
 
-    _flush(callback: TransformCallback) {
-        logger.debug("LimitFilter: Flushing");
-        callback();
+        logger.debug(`LimitFilter: Pushing chunk = ${chunk}, counter = ${this.counter + 1}`);
+        callback(null, chunk);
+
+        this.counter++;
+
+        if (this.counter === this.limit) {
+            this.push(null);
+            logger.debug("LimitFilter: The limit is reached. End of stream");
+        }
     }
 }
