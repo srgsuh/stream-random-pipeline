@@ -3,5 +3,5 @@ import {getParameters} from "./src/config_params.ts";
 
 const {count, min, max, isUnique} = getParameters();
 
-displayRandomNumbers({min, max, count: 49, isUnique})
+displayRandomNumbers({min, max, count, isUnique})
     .catch(err => console.error(err));

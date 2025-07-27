@@ -1,10 +1,11 @@
-import {Transform, TransformCallback, TransformOptions} from "node:stream";
+import {Transform, TransformCallback} from "node:stream";
 import logger from "./logger.ts";
+import {TRANSFORM_OPTIONS} from "./stream-options.js";
 
 export class UniqueLimitFilter extends Transform{
     private passedValues = new Set<string>();
-    constructor(private limit: number, options?: TransformOptions) {
-        super(options);
+    constructor(private limit: number) {
+        super(TRANSFORM_OPTIONS);
         logger.debug("UniqueFilter: Created");
     }
     _transform(chunk: any, encoding: BufferEncoding, callback: TransformCallback) {

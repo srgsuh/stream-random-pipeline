@@ -1,10 +1,11 @@
-import {Transform, TransformCallback, TransformOptions} from "node:stream";
+import {Transform, TransformCallback} from "node:stream";
 import logger from "./logger.ts";
+import {TRANSFORM_OPTIONS} from "./stream-options.js";
 
 export class LimitFilter extends Transform{
     private counter = 0;
-    constructor(private limit: number, options?: TransformOptions) {
-        super(options);
+    constructor(private limit: number) {
+        super(TRANSFORM_OPTIONS);
     }
     _transform(chunk: any, encoding: BufferEncoding, callback: TransformCallback) {
         if (this.counter >= this.limit) {

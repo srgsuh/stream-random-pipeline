@@ -3,7 +3,6 @@ import logger from "./logger.ts";
 import {RandomStream} from "./RandomStream.ts";
 import {Writable} from "node:stream";
 import {LimitFilter} from "./LimitFilter.ts";
-import {READABLE_OPTIONS, TRANSFORM_OPTIONS, WRITABLE_OPTIONS} from "./stream-options.js";
 import {FormatTransformer} from "./FormatTransformer.ts";
 import {UniqueLimitFilter} from "./UniqueLimitFilter.js";
 
@@ -27,11 +26,11 @@ export async function writeRandomNumbers(
 ) {
     try {
         validate(parameters);
-        const randomStream = new RandomStream(parameters.min, parameters.max, READABLE_OPTIONS);
+        const randomStream = new RandomStream(parameters.min, parameters.max);
         const limit = parameters.isUnique?
-            new UniqueLimitFilter(parameters.count, TRANSFORM_OPTIONS):
-            new LimitFilter(parameters.count, TRANSFORM_OPTIONS);
-        const formatter = new FormatTransformer(TRANSFORM_OPTIONS);
+            new UniqueLimitFilter(parameters.count):
+            new LimitFilter(parameters.count);
+        const formatter = new FormatTransformer();
 
         await pipeline(randomStream, limit, formatter, destination);
     }

@@ -1,4 +1,5 @@
-import {TransformOptions, Transform, TransformCallback} from "node:stream";
+import {Transform, TransformCallback} from "node:stream";
+import {WRITABLE_OPTIONS} from "./stream-options.js";
 
 export interface FormatTransformerOptions {
     delimiter: string;
@@ -14,8 +15,8 @@ const defaultOptions: FormatTransformerOptions = {
 
 export class FormatTransformer extends Transform {
     private notFirst = false;
-    constructor(options?: TransformOptions) {
-        super(options);
+    constructor() {
+        super(WRITABLE_OPTIONS);
     }
 
     _transform(chunk: any, encoding: BufferEncoding, callback: TransformCallback) {
@@ -26,12 +27,7 @@ export class FormatTransformer extends Transform {
     }
 
     private prefix(): string {
-        if (!this.notFirst) {
-            return defaultOptions.beforeAll
-        }
-        else {
-            return defaultOptions.delimiter;
-        }
+        return this.notFirst? defaultOptions.delimiter: defaultOptions.beforeAll;
     }
 
     _final(callback: (error?: (Error | null)) => void) {
