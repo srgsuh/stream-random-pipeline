@@ -14,15 +14,16 @@ export class UniqueLimitFilter extends Transform{
             return;
         }
 
-        const data = JSON.stringify(chunk);
-        if (this.passedValues.has(data)) {
+        const stringChunk = JSON.stringify(chunk);
+        if (this.passedValues.has(stringChunk)) {
             callback();
-            logger.debug(`UniqueFilter: The value is already passed. SKIPPING chunk = ${data}`);
+            logger.debug(`UniqueFilter: The value is already passed. SKIPPING chunk = ${stringChunk}`);
         }
         else {
             callback(null, chunk);
-            this.passedValues.add(data);
-            logger.debug(`UniqueFilter: Pushing chunk = ${data} (${this.passedValues.size}/${this.limit})`);
+
+            this.passedValues.add(stringChunk);
+            logger.debug(`UniqueFilter: Pushing chunk = ${stringChunk} (${this.passedValues.size}/${this.limit})`);
             if (this.limit === this.passedValues.size) {
                 this.push(null);
                 logger.debug("UniqueFilter: The limit is reached. End of stream");
